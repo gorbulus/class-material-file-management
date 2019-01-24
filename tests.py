@@ -10,7 +10,8 @@ from todos import TodoManager
 
 TESTING_PATH = '__todos_testing'
 
-
+# fixture - predefined rules for certain functions
+# you could exclude some tests 
 @pytest.fixture
 def path():
     return Path(TESTING_PATH)
@@ -24,6 +25,10 @@ def todos_dir_empty(path):
 
     shutil.rmtree(str(path.absolute()))
 
+# we add json files to the new created "__todo_testing" dir
+#  "__todo_testing"
+#   programming.json
+#   reviews.json
 
 @pytest.fixture
 def todos_with_categories(todos_dir_empty):
@@ -31,6 +36,7 @@ def todos_with_categories(todos_dir_empty):
     cat2 = todos_dir_empty / 'reviews.json'
 
     with cat1.open('w') as fp:
+        # adds the data to the json file "programming.json" as a string json object
         json.dump({
             'category_name': 'Programming',
             'todos': [{
@@ -44,9 +50,11 @@ def todos_with_categories(todos_dir_empty):
                 'due_on': '2018-03-21',
                 'status': 'done'
             }]
+            # indicates the "cat1" file
         }, fp, indent=2)
 
     with cat2.open('w') as fp:
+        # adds the data to the json file "programming.json" as a string json object
         json.dump({
             'category_name': 'Reviews',
             'todos': [{
@@ -55,6 +63,7 @@ def todos_with_categories(todos_dir_empty):
                 'due_on': '2018-03-28',
                 'status': 'pending'
             }]
+            # indicates the "cat2" file
         }, fp, indent=2)
 
     return todos_dir_empty
